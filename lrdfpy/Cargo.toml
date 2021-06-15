@@ -1,0 +1,17 @@
+[package]
+name = "lrdfpy"
+version = "0.1.0"
+authors = ["Andreas Hauser <Andreas.Hauser@LMU.de>"]
+edition = "2018"
+
+[lib]
+name = "lrdfpy"
+crate-type = ["cdylib"]
+
+[dependencies]
+lrdf = {path="..", version = "*"}
+
+[dependencies.pyo3]
+version = '*'
+features = ["extension-module"]
+
