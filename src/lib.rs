@@ -60,7 +60,7 @@ pub fn write_df(df : Dataframe)
 
 use std::io;
 #[allow(non_snake_case)]
-pub fn fastq_df(path: String) -> io::Result<String>
+pub fn fastq_df(path: String) -> io::Result<Dataframe>
 {
     let mut seq_length   = Vec::new();
     let mut mean_quality = Vec::new();
@@ -142,7 +142,7 @@ pub fn fastq_df(path: String) -> io::Result<String>
         channel:       order.apply_slice(&channel[..]),
         start_time:    order.apply_slice(&start_time[..])
     };
-    return Ok(df.to_string());
+    return Ok(df);
 }
 
 
