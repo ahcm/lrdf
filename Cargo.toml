@@ -8,10 +8,14 @@ edition = "2018"
 name = "lrdf"
 crate-type = ["cdylib","lib"]
 
+[[bin]]
+name = "lrdf"
+
 [dependencies]
 bio = "*"
 chrono = "*"
 permutation = "*"
+structopt = "*"
 
 [workspace]
 members = [ "lrdfpy" ]
