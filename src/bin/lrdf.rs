@@ -14,5 +14,6 @@ fn main() -> Result<(), Box<dyn std::error::Error>>
 {
     let opt = Opt::from_args();
     let df = fastq_df(opt.input)?;
-    Ok(write_df(df))
+    write_df(df);
+    Ok(())
 }
