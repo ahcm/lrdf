@@ -55,7 +55,7 @@ impl fmt::Display for Dataframe
 
 pub fn write_df(df : Dataframe)
 {
-    println!("{}", df);
+    print!("{}", df)
 }
 
 use std::io;
