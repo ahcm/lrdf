@@ -1,6 +1,6 @@
 [package]
 name = "lrdf"
-version = "0.1.0"
+version = "0.2.0"
 authors = ["Andreas Hauser <Andreas.Hauser@LMU.de>"]
 edition = "2021"
 license = "EUPL-1.2"
