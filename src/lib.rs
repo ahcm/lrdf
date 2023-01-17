@@ -1,10 +1,7 @@
 use std::fmt;
-use std::fs::File;
 use std::collections::HashMap;
 
-extern crate bio;
-use bio::io::fastq;
-use bio::io::fastq::FastqRead;
+use fastx::FastX::{self, FastQRecord, FastXRead, FastQRead};
 
 extern crate chrono;
 use chrono::{DateTime, FixedOffset};
@@ -74,37 +71,32 @@ pub fn fastq_df(path: String) -> io::Result<Dataframe>
     let mut channel      = Vec::new();
     let mut start_time   = Vec::new();
 
-    let file = File::open(&path)?;
-    let mut reader = fastq::Reader::new(file);
-    let mut record = fastq::Record::new();
+    let mut fastx_reader = FastX::reader_from_path(std::path::Path::new(&path))?;
+    let mut fastx_record = FastQRecord::default();
 
-    loop
+    while let Ok(_some @ 1..=usize::MAX) = fastx_record.read(&mut fastx_reader)
     {
-        reader.read(&mut record).expect("read error");
-        if record.is_empty()
-        {
-            break
-        }
+        let seq_len = fastx_record.seq_len();
 
-        seq_length.push(record.seq().len());
+        seq_length.push(seq_len);
 
-        let k = if record.seq().len() < 4 { record.seq().len() } else { 4 };
+        let k = if seq_len < 4 { seq_len } else { 4 };
 
         let mut kmer : [u8;4] = [0,0,0,0];
-        kmer[0..k].copy_from_slice(&record.seq()[0..k]);
+        kmer[0..k].copy_from_slice(&fastx_record.seq()[0..k]);
         kmer_start.push(kmer);
 
         let mut kmer : [u8;4] = [0,0,0,0];
-        kmer[0..k].copy_from_slice(&record.seq()[record.seq().len()-k..]);
+        kmer[0..k].copy_from_slice(&fastx_record.seq()[fastx_record.seq().len()-k..]);
         kmer_end.push(kmer);
 
-        let sum = record.qual().iter().fold(0.0, |sum, x| sum + (*x - 33) as f64);
-        mean_quality.push(sum / record.seq().len() as f64);
+        let sum = fastx_record.qual().iter().fold(0.0, |sum, x| sum + (*x - 33) as f64);
+        mean_quality.push(sum / seq_len as f64);
 
         let mut nts : [usize;256] = [0;256];
-        for b in record.seq()
+        for b in fastx_record.seq()
         {
-            nts[*b as usize] += 1;
+            nts[b as usize] += 1;
         }
 
         ntc_A.push(nts['A' as usize]);
@@ -113,7 +105,7 @@ pub fn fastq_df(path: String) -> io::Result<Dataframe>
         ntc_C.push(nts['C' as usize]);
         ntc_U.push(nts['U' as usize]);
 
-        let info : HashMap<String, String> = record.desc().unwrap().split(' ')
+        let info : HashMap<String, String> = fastx_record.desc().split(' ')
             .map(|kv| kv.split('=').collect::<Vec<&str>>())
             .map(|vec| { (vec[0].to_string(), vec[1].to_string()) })
             .collect();

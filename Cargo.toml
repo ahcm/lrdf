@@ -16,10 +16,10 @@ crate-type = ["cdylib","lib"]
 name = "lrdf"
 
 [dependencies]
-bio = "*"
-chrono = "*"
-permutation = "*"
-structopt = "*"
+chrono = "0.4.23"
+fastx = "0.2.0"
+permutation = "0.4.1"
+structopt = "0.3.26"
 
 [workspace]
 members = [ "lrdfpy" ]
