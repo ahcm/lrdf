@@ -6,6 +6,7 @@ edition = "2021"
 license = "EUPL-1.2"
 keywords = ["dataframe", "nanopore", "FastQ", "TSV", "commandline"]
 repository = "https://github.com/ahcm/lrdf"
+descritpion = "Commandline tool to generate a dataframe from Oxford Nanopore FastQ"
 
 [lib]
 name = "lrdf"
