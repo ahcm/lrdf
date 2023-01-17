@@ -32,7 +32,7 @@ impl fmt::Display for Dataframe
 {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result
     {
-        write!(f, "seq_length\tmean_quality\tkmers_start\tkmers_end\tnt_A\tnt_G\tnt_T\tnt_C\tnt_U\tchannels\tstart_times\n")?;
+        write!(f, "seq_length\tmean_quality\tkmer_start\tkmer_end\tnt_A\tnt_G\tnt_T\tnt_C\tnt_U\tchannels\tstart_times\n")?;
         for i in 0..self.seq_length.len()
         {
             write!(f, "{}\t{:.2}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\n",
